@@ -6,127 +6,206 @@ export const INITIAL_TOPICS: Topic[] = [
     number: 1,
     title: 'Memory Hierarchy',
     category: 'System Architecture',
-    summary: 'Explores the structural pyramid of computer memory balancing access time, capacity, and cost per bit, driven by the principle of locality of reference.',
+    summary: 'Organization of Memory in Computer Systems under JNTUK R23 Regulation (DLCO Unit IV). Covers memory trade-offs, pyramid structure, SRAM/DRAM, ROM, multi-tier cache, AMAT performance, virtual memory paging, and secondary storage.',
     keyConcepts: [
-      'Hierarchy Pyramid (Registers, L1-L3 Cache, Main Memory, Secondary, Archival)',
-      'Access Time vs. Cost vs. Capacity Trade-offs',
-      'Locality of Reference (Temporal and Spatial Locality)',
-      'Hit Ratio and Effective Memory Access Time (EMAT)'
+      'Memory Pyramid (Registers, L1-L3 Cache, Main Memory, Flash, Hard Disk, Tapes)',
+      'Semiconductor RAM (SRAM Flip-Flops vs DRAM 1T-1C Cells)',
+      'Non-Volatile Storage (Mask ROM, PROM, EPROM, EEPROM, Flash)',
+      'Cache Architecture & AMAT (Locality of Reference, Hit Ratio, Miss Penalty)',
+      'Virtual Memory & MMU (Paging, Page Tables, Page Faults, Demand Paging)',
+      'Secondary Storage Technologies (SSD NAND vs HDD Mechanical Platters)'
     ],
     presentation: {
       id: 'pres-topic-1',
       topicId: 'topic-1',
-      fileName: 'DLCO_Topic01_Memory_Hierarchy_Seminar.pdf',
-      fileType: 'pdf',
-      fileSize: 2458120, // ~2.4 MB
-      fileUrl: '/presentations/DLCO_Topic01_Memory_Hierarchy_Seminar.pdf',
-      uploadedAt: '2026-10-28T09:30:00.000Z',
-      uploadedBy: 'Prof. Computer Architecture (Faculty Coordinator)',
-      description: 'Comprehensive seminar slide deck covering memory hierarchy design principles, access latency comparisons, locality laws, and numerical problems on Effective Memory Access Time.',
-      slideCount: 16,
+      fileName: 'DLCO_Topic01_Memory_Hierarchy_Seminar.pptx',
+      fileType: 'pptx',
+      fileSize: 1080728, // 1.08 MB
+      fileUrl: '/presentations/DLCO_Topic01_Memory_Hierarchy_Seminar.pptx',
+      uploadedAt: '2026-10-29T18:00:00.000Z',
+      uploadedBy: 'Seminar Presentation Team (Karthikeya, Nikhil, Teja, Srinivas, Manohar)',
+      description: 'Official Seminar Presentation on Memory Hierarchy in Computer Systems (JNTUK R23 Regulation | DLCO Unit IV | Department of CSE).',
+      slideCount: 12,
       slides: [
         {
           slideNumber: 1,
-          title: 'Title Slide: Memory Hierarchy Design',
+          title: 'MEMORY HIERARCHY: Organization of Memory in Computer Systems',
           bulletPoints: [
-            'Course: Digital Logic and Computer Organization (DLCO)',
-            'Unit: Computer Memory System and Organization',
-            'Seminar Topic 01: Memory Hierarchy Design & Performance Analysis',
-            'Department of Computer Science & Engineering'
+            'Course: Digital Logic and Computer Organization (DLCO) | Unit IV',
+            'Regulation & Department: JNTUK R23 Regulation | Department of CSE',
+            'Presented by Seminar Team (CAI 2-1):',
+            '• Member 1: Karthikeya (Intro & Hierarchy Structure)',
+            '• Member 2: Nikhil (Semiconductor RAM & ROM)',
+            '• Member 3: Teja (Cache Memory & Performance)',
+            '• Member 4: Srinivas (Virtual Memory & Management)',
+            '• Member 5: Manohar (Secondary Storage & Summary)'
           ],
-          speakerNotes: 'Welcome students to the first seminar presentation on Computer Memory Organization.'
+          speakerNotes: 'Welcome faculty and students. This seminar covers complete memory organization in modern computers presented by our 5-member team.'
         },
         {
           slideNumber: 2,
-          title: 'The Need for Memory Hierarchy',
+          title: 'Introduction to Memory Organization',
           bulletPoints: [
-            'Processor-Memory Speed Gap: CPU cycle times decrease much faster than DRAM access times.',
-            'Cost vs. Speed Trade-off: High-speed static storage (SRAM) is prohibitively expensive per bit compared to dynamic storage (DRAM) or magnetic/flash storage.',
-            'Capacity Constraint: Large memories are inherently slower due to physical interconnect delays and decoding logic.',
-            'Architectural Solution: Build a layered memory system combining fast, small memory at the top and slow, cheap, large memory at the bottom.'
+            'Role of Memory: Stores programs, instructions, operational data, and computation results.',
+            'Crucial Subsystem: Directly determines processor utilization, instruction throughput, and system responsiveness.',
+            'CPU-Memory Speed Divergence: Processors execute instructions at nanosecond clock speeds requiring rapid data availability.',
+            'Architectural Constraint: A single memory technology cannot satisfy both maximum speed and maximum capacity simultaneously.',
+            'Speed vs. Cost Trade-off: Faster memory technologies are substantially more expensive per bit.',
+            'Capacity vs. Speed Trade-off: Larger capacity memories exhibit longer physical access latencies.',
+            'Hierarchy Strategy: Combines multiple memory technologies in a tiered pyramid structure.',
+            'Design Goal: Delivers nearly the speed of the fastest memory with the capacity and cost of the cheapest.'
           ],
-          speakerNotes: 'Highlight the widening speed divergence known as the "Memory Wall".'
+          speakerNotes: 'Presented by Karthikeya (Member 1). Focus on the fundamental trade-offs between speed, cost, and physical storage capacity.'
         },
         {
           slideNumber: 3,
-          title: 'The Memory Hierarchy Pyramid',
+          title: 'Structure of Memory Hierarchy: The Memory Pyramid',
           bulletPoints: [
-            'Level 0 - Internal CPU Registers: 0.25 - 0.5 ns access, 32 to 128 words, managed by compiler.',
-            'Level 1 - On-Chip L1 Cache (Split I-Cache & D-Cache): 0.5 - 1.5 ns, 32KB - 128KB, managed by hardware.',
-            'Level 2 - L2 Cache: 3 - 7 ns, 256KB - 1MB per core, managed by hardware.',
-            'Level 3 - L3 Shared Cache: 10 - 25 ns, 8MB - 64MB shared on-chip, managed by hardware.',
-            'Level 4 - Main Memory (DRAM): 50 - 80 ns, 8GB - 64GB, managed by OS/Hardware (Virtual Memory).',
-            'Level 5 - Secondary Storage (NVMe SSD / HDD): 10 µs - 10 ms, 512GB - 4TB, managed by File System.',
-            'Level 6 - Tertiary & Cloud Storage: > 100 ms, archival tape / distributed object storage.'
+            'Level 1 - CPU Internal Registers: Inside processor, fastest access (< 1 ns), smallest capacity (bytes), highest cost per bit.',
+            'Level 2 - Cache Memory: High-speed SRAM (L1, L2, L3) bridging CPU and main memory clock speeds (1–10 ns).',
+            'Level 3 - Main Memory (RAM): Dynamic RAM (DRAM) holding active applications and datasets (50–100 ns, 8–64 GB).',
+            'Level 4 - USB / Flash Memory: High-density solid-state intermediate storage.',
+            'Level 5 - Magnetic Disk / Hard Disk: Large capacity secondary storage with low cost per bit (512 GB–4 TB).',
+            'Level 6 - Magnetic Tapes / Drives: Archival offline storage with highest capacity and lowest cost per bit.',
+            'Core Trend Downward: Increasing access time (latency), increasing storage capacity, decreasing cost per bit.'
           ],
-          speakerNotes: 'Walk students through each tier from top (fastest, smallest, costliest) to bottom.'
+          speakerNotes: 'Presented by Karthikeya (Member 1). Explaining the 6-tier pyramid from registers down to archival tape storage.'
         },
         {
           slideNumber: 4,
-          title: 'Key Operational Parameters Across Levels',
+          title: 'Semiconductor RAM Memories: SRAM vs DRAM',
           bulletPoints: [
-            'Access Latency: Increases monotonically down the pyramid by orders of magnitude (ns -> µs -> ms).',
-            'Cost per Bit ($/bit): Decreases exponentially from top to bottom tiers.',
-            'Total Storage Capacity: Increases geometrically from registers (bytes) to secondary disks (terabytes).',
-            'CPU Frequency of Access: Decreases as we move down the pyramid due to filtering by higher tiers.'
-          ]
+            'Static RAM (SRAM): Built using bistable flip-flop logic circuits (4 to 6 transistors per cell).',
+            'SRAM Access Latency: Very fast access times (sub-nanosecond to a few nanoseconds).',
+            'SRAM Refreshing: Does NOT require dynamic periodic refreshing while power is maintained.',
+            'SRAM Application: Exclusively used for CPU internal L1/L2 and shared L3 cache memories.',
+            'Dynamic RAM (DRAM): Stores bits as electrical charges across tiny capacitor-transistor (1T-1C) pairs.',
+            'DRAM Refreshing: Electrical charge leaks continuously; requires dynamic periodic refresh cycles.',
+            'DRAM Density & Economics: Extremely high packing density, simple cell layout, very low cost per bit.',
+            'DRAM Application: Standard technological choice for computer Main Memory (System RAM DDR4/DDR5).'
+          ],
+          speakerNotes: 'Presented by Nikhil (Member 2). Contrasting SRAM flip-flop circuits with DRAM capacitor refresh cycles.'
         },
         {
           slideNumber: 5,
-          title: 'Foundation Principle: Locality of Reference',
+          title: 'Read-Only Memory (ROM): Non-Volatile Semiconductor Storage',
           bulletPoints: [
-            'Temporal Locality: If a memory location is accessed once, it is likely to be accessed again in the near future (e.g., loop variables, subroutine calls).',
-            'Spatial Locality: If a memory location is accessed, nearby memory locations are likely to be accessed soon (e.g., sequential code execution, array traversals).',
-            'Why Locality Works: High-level computer programs are structured with iterations, modular routines, and continuous data structures.'
-          ]
+            'Non-Volatile Characteristic: Retains program code permanently even when electrical power is removed.',
+            'System Bootstrap: Holds initialization programs (BIOS / UEFI) and system startup routines.',
+            'Embedded Firmware: Stores dedicated control routines in microcontrollers, IoT devices, and appliances.',
+            'Read Operations: Standard CPU operation is read-only during normal computing execution.',
+            'Mask ROM: Hardwired during semiconductor fabrication; cannot be modified or updated.',
+            'PROM (Programmable ROM): Shipped blank and electrically programmed once using microscopic fuse links.',
+            'EPROM (Erasable PROM): Erased by exposing quartz window to ultraviolet (UV) light.',
+            'EEPROM (Electrically Erasable PROM): Erased in-circuit via electrical signals byte-by-byte.',
+            'Flash Memory: High-density EEPROM variation erasable in large sector blocks (NAND/NOR).'
+          ],
+          speakerNotes: 'Presented by Nikhil (Member 2). Reviewing the technological evolution from Mask ROM to modern Flash memory.'
         },
         {
           slideNumber: 6,
-          title: 'Effective Memory Access Time (EMAT)',
+          title: 'Cache Memory Architecture: High-Speed Buffer & Multi-Level Cache',
           bulletPoints: [
-            'Hit Ratio (h): Fraction of memory references found in the upper-level memory (0 ≤ h ≤ 1).',
-            'Miss Ratio (m): Fraction of memory references that must be retrieved from the lower level (m = 1 - h).',
-            'Two-Level Formula: EMAT = h × T_cache + (1 - h) × (T_cache + T_main)',
-            'Hierarchical Miss Penalty: In modern pipelines, Miss Penalty = T_main, so EMAT = T_cache + (1 - h) × Miss Penalty.'
-          ]
+            'Buffer Role: Small, ultra-fast memory placed directly between CPU execution units and Main RAM.',
+            'Temporal Locality: If a memory location is accessed once, it is likely to be accessed again in the near future.',
+            'Spatial Locality: If a memory location is accessed, nearby memory locations are likely to be accessed soon.',
+            'Hardware Transparency: Operates completely automatically in hardware without requiring programmer management.',
+            'L1 Cache (Primary): Integrated inside CPU core; smallest (32–64 KB), fastest (sub-nanosecond access).',
+            'L2 Cache (Secondary): Dedicated per-core buffer; larger capacity (256 KB–1 MB), slightly slower access.',
+            'L3 Cache (System-Level): Shared across all processor cores; high capacity (8–64 MB).',
+            'Access Hierarchy Flow: CPU checks L1 -> then L2 -> then L3 -> falls back to DRAM only on cache miss.'
+          ],
+          speakerNotes: 'Presented by Teja (Member 3). Principles of cache buffering, locality laws, and multi-tier L1-L3 cache architectures.'
         },
         {
           slideNumber: 7,
-          title: 'Numerical Example: EMAT Calculation',
+          title: 'Cache Performance Considerations: Metrics & Access Time Analysis',
           bulletPoints: [
-            'Given Parameters: Cache access time Tc = 2 ns, Main memory access time Tm = 50 ns.',
-            'Scenario A (Hit Ratio = 90%): EMAT = 0.90 × 2 + 0.10 × 52 = 1.8 + 5.2 = 7.0 ns.',
-            'Scenario B (Hit Ratio = 98%): EMAT = 0.98 × 2 + 0.02 × 52 = 1.96 + 1.04 = 3.0 ns.',
-            'Observation: An 8% improvement in hit ratio yields more than a 2.3x speedup in average memory access time!'
-          ]
+            'Cache Hit: Requested memory word is found directly within the high-speed cache buffer.',
+            'Cache Miss: Requested word is not present, requiring retrieval from lower-tier main memory.',
+            'Hit Ratio (h): Fraction of total memory references satisfied by cache: (Cache Hits) / (Total Accesses).',
+            'Miss Ratio (m): Complement of hit ratio, equal to (1 - Hit Ratio).',
+            'Miss Penalty: Extra latency required to fetch the required block from DRAM into cache.',
+            'Typical Performance: A 90% to 95% hit ratio drastically lowers effective memory latency.',
+            'Average Memory Access Time (AMAT): AMAT = Hit Time + (Miss Rate × Miss Penalty).',
+            'Architectural Goal: High hit rates ensure the CPU rarely experiences the full DRAM access delay.'
+          ],
+          speakerNotes: 'Presented by Teja (Member 3). AMAT numerical formula, hit vs miss ratios, and cache latency mitigation.'
         },
         {
           slideNumber: 8,
-          title: 'Multi-Level Cache Performance Model',
+          title: 'Virtual Memory Architecture: Address Translation & Paging',
           bulletPoints: [
-            'Modern CPUs deploy L1, L2, and L3 cache hierarchies.',
-            'Formula: EMAT = T_L1 + m1 × (T_L2 + m2 × (T_L3 + m3 × T_DRAM))',
-            'Local Miss Rate vs Global Miss Rate distinction.',
-            'Inclusion Property: Strict Inclusion vs Non-inclusive vs Exclusive (e.g., AMD Zen victim cache).'
-          ]
+            'Logical Address Space: Grants programs an illusion of large, contiguous virtual memory.',
+            'Overcoming Physical RAM Limits: Programs can run successfully even if they exceed physical RAM size.',
+            'Memory Management Unit (MMU): Hardware component performing fast virtual-to-physical address translation.',
+            'Address Decoupling: Decouples user logical addresses from actual physical memory locations.',
+            'Pages & Frames: Virtual memory is divided into fixed pages; physical RAM into page frames.',
+            'Page Table: Maps process virtual pages to corresponding physical RAM frames.',
+            'Page Fault: Triggered when an active instruction references a page not currently residing in RAM.',
+            'Demand Paging: Operating system retrieves required page from secondary storage into free RAM frame.',
+            'Replacement Policy: Replaces inactive pages (using LRU or FIFO) when physical memory is saturated.'
+          ],
+          speakerNotes: 'Presented by Srinivas (Member 4). MMU hardware translation, paging, and demand paging page fault handling.'
         },
         {
           slideNumber: 9,
-          title: 'Memory Interleaving and Bandwidth',
+          title: 'Memory Management Requirements: Core Operating System Functions',
           bulletPoints: [
-            'High-Order Interleaving: Memory split into consecutive modules; low spatial bandwidth.',
-            'Low-Order Interleaving: Consecutive memory addresses fall in distinct modules allowing concurrent access.',
-            'Multi-Channel Architecture: Dual-channel and Quad-channel DDR memory busses provide simultaneous pipelined transfers.'
-          ]
+            'Relocation: Dynamic address translation allowing programs to be loaded anywhere in RAM upon execution.',
+            'Protection: Prevents processes from unauthorized access to other memory areas (base & limit registers).',
+            'Hardware Enforcement: Hardware base and limit registers protect the operating system kernel.',
+            'Sharing: Allows multiple cooperating processes to safely access common code (shared DLL libraries).',
+            'Logical Organization: Structures memory into logical modules, procedures, and data arrays.',
+            'Physical Organization: Coordinates transparent data flow between volatile RAM and secondary storage.',
+            'System Responsibility: Managed by OS kernel and hardware without burdening application programmers.'
+          ],
+          speakerNotes: 'Presented by Srinivas (Member 4). The 5 fundamental requirements: Relocation, Protection, Sharing, Logical, and Physical Organization.'
         },
         {
           slideNumber: 10,
-          title: 'Summary & Key Takeaways',
+          title: 'Secondary Storage Systems: Non-Volatile Mass Storage',
           bulletPoints: [
-            'Memory hierarchy creates the illusion of a memory as fast as the fastest component and as large as the cheapest one.',
-            'The entire scheme relies upon the 90/10 rule of locality of reference.',
-            'Optimizing cache hit ratio is the single most critical factor for compute-bound and memory-bound systems.'
-          ]
+            'Permanent Data Repository: Non-volatile storage for OS kernel, applications, and user files.',
+            'Massive Storage Capacity: Provides hundreds of gigabytes to several terabytes of storage volume.',
+            'Lowest Cost per Bit: Highly economical compared to semiconductor SRAM and DRAM.',
+            'Virtual Memory Backing: Serves as swap space holding inactive pages displaced from RAM.',
+            'Solid State Drives (SSD): Uses NAND flash memory; no moving parts, high IOPS, fast random access.',
+            'Hard Disk Drives (HDD): Magnetic platters with mechanical read/write arms; high capacity, economical.',
+            'Removable & Optical Media: USB flash drives and optical discs (CD/DVD/Blu-ray) for portable/archival storage.'
+          ],
+          speakerNotes: 'Presented by Manohar (Member 5). Mass storage technology comparison between solid-state flash and magnetic platters.'
+        },
+        {
+          slideNumber: 11,
+          title: 'Comparison of Memory Levels: Quantitative Summary Across Hierarchy',
+          bulletPoints: [
+            'CPU Registers: CMOS Flip-Flops | Access < 1 ns | Capacity Bytes-KB | Cost/Bit Highest.',
+            'Cache Memory: Static RAM (SRAM) | Access 1–10 ns | Capacity KB-MB | Cost/Bit Very High.',
+            'Main Memory: Dynamic RAM (DRAM) | Access 50–100 ns | Capacity 8–64 GB | Cost/Bit Moderate.',
+            'Secondary Storage: SSD / HDD Magnetic | Access Micro to Milliseconds | Capacity 512GB–4TB | Cost/Bit Lowest.',
+            'Hierarchy Law: As we move downward, access latency increases, capacity expands, and cost per bit plummets.',
+            'Engineering Harmony: High-speed execution is sustained without incurring prohibitive semiconductor manufacturing costs.'
+          ],
+          speakerNotes: 'Presented by Manohar (Member 5). Comprehensive comparative matrix across latency, capacity, and cost tiers.'
+        },
+        {
+          slideNumber: 12,
+          title: 'Summary, Conclusion & Team Acknowledgements',
+          bulletPoints: [
+            'Unified Hierarchy: Bridges the growing processor-memory performance gap (Memory Wall).',
+            'Complementary Roles: Fast SRAM caches mask DRAM latencies, while virtual memory leverages disk capacity.',
+            'Cost-Effective Performance: Delivers near-cache access speed at main memory capacity and budget.',
+            'System Stability: OS memory management ensures isolation, protection, and dynamic relocation.',
+            'THANK YOU! Seminar Presentation Team (CAI 2-1):',
+            '• Member 1: Karthikeya (Intro & Hierarchy Structure)',
+            '• Member 2: Nikhil (Semiconductor RAM & ROM)',
+            '• Member 3: Teja (Cache Memory & Performance)',
+            '• Member 4: Srinivas (Virtual Memory & Management)',
+            '• Member 5: Manohar (Secondary Storage & Summary)',
+            'Subject: Digital Logic and Computer Organization (DLCO) | JNTUK R23 Regulation | Department of CSE'
+          ],
+          speakerNotes: 'Presented by Manohar (Member 5). Final seminar wrap-up and acknowledgements.'
         }
       ]
     }

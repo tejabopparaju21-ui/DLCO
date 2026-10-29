@@ -125,6 +125,8 @@ export const PresentationViewer: React.FC<PresentationViewerProps> = ({
   const slides = presentation.slides || [];
   const currentSlide = slides[currentSlideIndex];
   const isPdf = presentation.fileType === 'pdf';
+  const hasCompanionPdf = isPdf || topic.number === 1;
+  const companionPdfUrl = isPdf ? resolvedFileUrl : '/presentations/DLCO_Topic01_Memory_Hierarchy_Seminar.pdf';
 
   return (
     <div className="presentation-viewer-container" id="presentation-viewer">
@@ -160,7 +162,7 @@ export const PresentationViewer: React.FC<PresentationViewerProps> = ({
 
         {/* View Mode Tabs and Download Action */}
         <div className="toolbar-actions">
-          {isPdf && (
+          {hasCompanionPdf && (
             <button
               className={`viewer-tab-btn ${activeTab === 'pdf' ? 'active' : ''}`}
               onClick={() => setActiveTab('pdf')}
@@ -191,7 +193,21 @@ export const PresentationViewer: React.FC<PresentationViewerProps> = ({
               title="Download presentation to your device"
             >
               <Download size={15} />
-              <span>Download File</span>
+              <span>Download {presentation.fileType.toUpperCase()} ({Math.round(presentation.fileSize / 1024)} KB)</span>
+            </a>
+          )}
+
+          {!isPdf && hasCompanionPdf && (
+            <a
+              href="/presentations/DLCO_Topic01_Memory_Hierarchy_Seminar.pdf"
+              download="DLCO_Topic01_Memory_Hierarchy_Seminar.pdf"
+              className="btn-secondary"
+              style={{ fontSize: '0.85rem', padding: '0.45rem 0.8rem', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}
+              id="download-pdf-companion-btn"
+              title="Download PDF version"
+            >
+              <Download size={14} />
+              <span>Download PDF</span>
             </a>
           )}
         </div>
@@ -202,11 +218,11 @@ export const PresentationViewer: React.FC<PresentationViewerProps> = ({
         <div style={{ padding: '4rem', textAlign: 'center', color: '#64748b' }}>
           <p>Loading course presentation...</p>
         </div>
-      ) : activeTab === 'pdf' && isPdf ? (
+      ) : activeTab === 'pdf' && hasCompanionPdf ? (
         /* PDF In-Page Native Viewer with Fallback */
         <div className="pdf-embed-wrapper">
           <object
-            data={resolvedFileUrl}
+            data={companionPdfUrl}
             type="application/pdf"
             className="pdf-embed-frame"
             aria-label={`${presentation.fileName} PDF Preview`}
@@ -216,12 +232,12 @@ export const PresentationViewer: React.FC<PresentationViewerProps> = ({
                 Your browser is unable to display this PDF directly inside the frame.
               </p>
               <a
-                href={resolvedFileUrl}
-                download={presentation.fileName}
+                href={companionPdfUrl}
+                download={isPdf ? presentation.fileName : 'DLCO_Topic01_Memory_Hierarchy_Seminar.pdf'}
                 className="btn-primary"
               >
                 <Download size={16} />
-                <span>Download {presentation.fileName}</span>
+                <span>Download Presentation PDF</span>
               </a>
             </div>
           </object>

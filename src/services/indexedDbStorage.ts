@@ -2,7 +2,7 @@ import type { Topic, PresentationMetadata, AuthUser } from '../types';
 import { INITIAL_TOPICS } from '../data/initialTopics';
 
 const DB_NAME = 'DLCO_Portal_Database';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 const TOPICS_STORE = 'topics';
 const FILES_STORE = 'presentation_files';
 
@@ -83,6 +83,14 @@ class IndexedDbService {
         if (!topics || topics.length === 0) {
           this.initializeDefaultTopics().then(resolve).catch(reject);
         } else {
+          // If topic-1 presentation has been updated in INITIAL_TOPICS (12-slide seminar deck)
+          const topic1 = topics.find((t) => t.id === 'topic-1');
+          if (topic1 && (!topic1.presentation || topic1.presentation.slideCount !== 12 || topic1.presentation.fileName.endsWith('.pdf'))) {
+            topic1.presentation = INITIAL_TOPICS[0].presentation;
+            topic1.summary = INITIAL_TOPICS[0].summary;
+            topic1.keyConcepts = INITIAL_TOPICS[0].keyConcepts;
+            this.updateTopic(topic1).catch(console.error);
+          }
           resolve(topics.sort((a, b) => a.number - b.number));
         }
       };
@@ -99,6 +107,17 @@ class IndexedDbService {
 
       request.onsuccess = () => resolve(request.result || null);
       request.onerror = () => reject(request.error);
+    });
+  }
+
+  async updateTopic(topic: Topic): Promise<void> {
+    const db = await this.getDB();
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction([TOPICS_STORE], 'readwrite');
+      const store = transaction.objectStore(TOPICS_STORE);
+      store.put(topic);
+      transaction.oncomplete = () => resolve();
+      transaction.onerror = () => reject(transaction.error);
     });
   }
 
