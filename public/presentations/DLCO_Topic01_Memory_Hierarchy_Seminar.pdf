@@ -1,0 +1,287 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+2 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+3 0 obj
+<< /Type /Catalog /Pages 4 0 R >>
+endobj
+4 0 obj
+<< /Type /Pages /Kids [5 0 R 7 0 R 9 0 R 11 0 R 13 0 R 15 0 R] /Count 6 >>
+endobj
+5 0 obj
+<< /Type /Page /Parent 4 0 R /MediaBox [0 0 792 612] /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> /Contents 6 0 R >>
+endobj
+6 0 obj
+<< /Length 720 >>
+stream
+BT
+/F1 20 Tf
+50 540 Td
+(Digital Logic & Computer Organization) Tj
+/F2 12 Tf
+0 -25 Td
+(Topic 01: Memory Hierarchy Design & Performance) Tj
+ET
+50 500 m 750 500 l S
+BT
+/F2 11 Tf
+50 470 Td
+(Department of Computer Science & Engineering) Tj
+0 -18 Td
+(Faculty: Prof. Computer Architecture) Tj
+0 -18 Td
+(Interactive Seminar Presentation Deck) Tj
+0 -18 Td
+() Tj
+0 -18 Td
+(Overview:) Tj
+0 -18 Td
+(- Need for Memory Hierarchy & The Memory Wall) Tj
+0 -18 Td
+(- The Multi-Tier Pyramid Structure) Tj
+0 -18 Td
+(- Locality of Reference \(Temporal & Spatial\)) Tj
+0 -18 Td
+(- Effective Memory Access Time \(EMAT\) & Numerical Analysis) Tj
+0 -18 Td
+/F2 9 Tf
+0 -40 Td
+(Digital Logic and Computer Organization -- DLCO Seminar Portal) Tj
+ET
+
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 4 0 R /MediaBox [0 0 792 612] /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> /Contents 8 0 R >>
+endobj
+8 0 obj
+<< /Length 751 >>
+stream
+BT
+/F1 20 Tf
+50 540 Td
+(1. The Need for Memory Hierarchy) Tj
+/F2 12 Tf
+0 -25 Td
+(Bridging the Processor-Memory Gap) Tj
+ET
+50 500 m 750 500 l S
+BT
+/F2 11 Tf
+50 470 Td
+(Key Challenges in Modern Systems:) Tj
+0 -18 Td
+(- Speed Divergence: CPU frequency scales faster than DRAM latency.) Tj
+0 -18 Td
+(- Cost Constraint: Fast memory \(SRAM\) is costly; large memory \(DRAM\) is slower.) Tj
+0 -18 Td
+(- Capacity Demands: Modern workloads require gigabytes of address space.) Tj
+0 -18 Td
+(- The Ideal Memory: As fast as SRAM, as large as disk, as cheap as flash.) Tj
+0 -18 Td
+(- Solution: Layered hierarchy leveraging caching and spatial/temporal locality.) Tj
+0 -18 Td
+/F2 9 Tf
+0 -40 Td
+(Digital Logic and Computer Organization -- DLCO Seminar Portal) Tj
+ET
+
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 4 0 R /MediaBox [0 0 792 612] /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> /Contents 10 0 R >>
+endobj
+10 0 obj
+<< /Length 914 >>
+stream
+BT
+/F1 20 Tf
+50 540 Td
+(2. The Memory Hierarchy Pyramid) Tj
+/F2 12 Tf
+0 -25 Td
+(Levels, Access Times & Typical Capacities) Tj
+ET
+50 500 m 750 500 l S
+BT
+/F2 11 Tf
+50 470 Td
+(Level 0 - CPU Internal Registers : 0.25 - 0.5 ns | ~1 KB | Compiler Managed) Tj
+0 -18 Td
+(Level 1 - L1 Cache \(I-Cache/D-Cache\) : 0.5 - 1.5 ns | 32-128 KB | Hardware Managed) Tj
+0 -18 Td
+(Level 2 - L2 Cache \(Per Core\) : 3.0 - 7.0 ns | 256KB-1MB | Hardware Managed) Tj
+0 -18 Td
+(Level 3 - L3 Shared Cache : 10 - 25 ns | 8 - 64 MB | Hardware Managed) Tj
+0 -18 Td
+(Level 4 - Main Memory \(DRAM\) : 50 - 80 ns | 8 - 64 GB | OS & Hardware Managed) Tj
+0 -18 Td
+(Level 5 - Solid-State Drive \(SSD\) : 10 - 50 us | 512GB - 2TB | File System Managed) Tj
+0 -18 Td
+(Level 6 - Cloud & Tertiary Archival : >100 ms | Unlimited | Distributed Storage) Tj
+0 -18 Td
+/F2 9 Tf
+0 -40 Td
+(Digital Logic and Computer Organization -- DLCO Seminar Portal) Tj
+ET
+
+endstream
+endobj
+11 0 obj
+<< /Type /Page /Parent 4 0 R /MediaBox [0 0 792 612] /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> /Contents 12 0 R >>
+endobj
+12 0 obj
+<< /Length 840 >>
+stream
+BT
+/F1 20 Tf
+50 540 Td
+(3. Locality of Reference Principle) Tj
+/F2 12 Tf
+0 -25 Td
+(The Foundation of Caching Effectiveness) Tj
+ET
+50 500 m 750 500 l S
+BT
+/F2 11 Tf
+50 470 Td
+(Temporal Locality \(Locality in Time\):) Tj
+0 -18 Td
+(  - If a memory location is accessed, it will be accessed again soon.) Tj
+0 -18 Td
+(  - Examples: Loop counters, recurrent variables, subroutines.) Tj
+0 -18 Td
+() Tj
+0 -18 Td
+(Spatial Locality \(Locality in Space\):) Tj
+0 -18 Td
+(  - If a location is referenced, adjacent locations are likely to be accessed.) Tj
+0 -18 Td
+(  - Examples: Sequential instruction fetch, array iterations, struct records.) Tj
+0 -18 Td
+() Tj
+0 -18 Td
+(Empirical Law: 90/10 Rule - 90% of execution time is spent in 10% of the code.) Tj
+0 -18 Td
+/F2 9 Tf
+0 -40 Td
+(Digital Logic and Computer Organization -- DLCO Seminar Portal) Tj
+ET
+
+endstream
+endobj
+13 0 obj
+<< /Type /Page /Parent 4 0 R /MediaBox [0 0 792 612] /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> /Contents 14 0 R >>
+endobj
+14 0 obj
+<< /Length 845 >>
+stream
+BT
+/F1 20 Tf
+50 540 Td
+(4. Effective Memory Access Time \(EMAT\)) Tj
+/F2 12 Tf
+0 -25 Td
+(Formula & Numerical Analysis) Tj
+ET
+50 500 m 750 500 l S
+BT
+/F2 11 Tf
+50 470 Td
+(Basic Two-Tier Formula:) Tj
+0 -18 Td
+(  EMAT = h * Tc + \(1 - h\) * \(Tc + Tm\)) Tj
+0 -18 Td
+(  Where: h = Hit Ratio, Tc = Cache Access Time, Tm = Main Memory Time) Tj
+0 -18 Td
+() Tj
+0 -18 Td
+(Numerical Demonstration:) Tj
+0 -18 Td
+(  Given Tc = 2 ns, Tm = 50 ns) Tj
+0 -18 Td
+(  If h = 0.90 \(90% hit rate\):) Tj
+0 -18 Td
+(    EMAT = 0.90 * 2 + 0.10 * 52 = 1.8 + 5.2 = 7.0 ns) Tj
+0 -18 Td
+(  If h = 0.98 \(98% hit rate\):) Tj
+0 -18 Td
+(    EMAT = 0.98 * 2 + 0.02 * 52 = 1.96 + 1.04 = 3.0 ns) Tj
+0 -18 Td
+(  Conclusion: An 8% hit rate increase more than doubles performance!) Tj
+0 -18 Td
+/F2 9 Tf
+0 -40 Td
+(Digital Logic and Computer Organization -- DLCO Seminar Portal) Tj
+ET
+
+endstream
+endobj
+15 0 obj
+<< /Type /Page /Parent 4 0 R /MediaBox [0 0 792 612] /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> /Contents 16 0 R >>
+endobj
+16 0 obj
+<< /Length 796 >>
+stream
+BT
+/F1 20 Tf
+50 540 Td
+(5. Summary and Review Questions) Tj
+/F2 12 Tf
+0 -25 Td
+(Key Takeaways for Students) Tj
+ET
+50 500 m 750 500 l S
+BT
+/F2 11 Tf
+50 470 Td
+(Takeaway 1: Memory hierarchy hides latency through predictive caching.) Tj
+0 -18 Td
+(Takeaway 2: Lower tiers provide non-volatile, economical bulk storage.) Tj
+0 -18 Td
+(Takeaway 3: Cache replacement and mapping determine real-world throughput.) Tj
+0 -18 Td
+() Tj
+0 -18 Td
+(Seminar Review Questions:) Tj
+0 -18 Td
+(1. Differentiate between spatial and temporal locality with C++ examples.) Tj
+0 -18 Td
+(2. Compute EMAT for a 3-tier system \(L1, L2, DRAM\).) Tj
+0 -18 Td
+(3. Explain why registers cannot replace cache memories entirely.) Tj
+0 -18 Td
+/F2 9 Tf
+0 -40 Td
+(Digital Logic and Computer Organization -- DLCO Seminar Portal) Tj
+ET
+
+endstream
+endobj
+xref
+0 17
+0000000000 65535 f 
+0000000009 00000 n 
+0000000084 00000 n 
+0000000154 00000 n 
+0000000203 00000 n 
+0000000293 00000 n 
+0000000429 00000 n 
+0000001200 00000 n 
+0000001336 00000 n 
+0000002138 00000 n 
+0000002275 00000 n 
+0000003241 00000 n 
+0000003379 00000 n 
+0000004271 00000 n 
+0000004409 00000 n 
+0000005306 00000 n 
+0000005444 00000 n 
+trailer
+<< /Size 17 /Root 3 0 R >>
+startxref
+6292
+%%EOF

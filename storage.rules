@@ -1,0 +1,25 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Helper function to check if user has teacher role
+    function isTeacher() {
+      return request.auth != null && 
+        (request.auth.token.role == 'teacher' || 
+         request.auth.token.email.matches('.*@faculty\\.dlco\\.edu') ||
+         request.auth.token.email.matches('.*@dlco\\.edu'));
+    }
+
+    // Presentation files:
+    // Anyone (students) can download/read presentation files.
+    // Only authenticated teachers can upload, replace, or delete files.
+    match /presentations/{topicId}/{fileName} {
+      allow read: if true;
+      allow write: if isTeacher()
+                   && request.resource.size < 50 * 1024 * 1024 // 50MB max limit
+                   && (request.resource.contentType.matches('application/pdf') ||
+                       request.resource.contentType.matches('application/vnd.ms-powerpoint') ||
+                       request.resource.contentType.matches('application/vnd.openxmlformats-officedocument.presentationml.presentation'));
+      allow delete: if isTeacher();
+    }
+  }
+}

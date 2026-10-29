@@ -1,0 +1,27 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper function to check if user has teacher role
+    function isTeacher() {
+      return request.auth != null && 
+        (request.auth.token.role == 'teacher' || 
+         request.auth.token.email.matches('.*@faculty\\.dlco\\.edu') ||
+         request.auth.token.email.matches('.*@dlco\\.edu') ||
+         exists(/databases/$(database)/documents/teachers/$(request.auth.uid)));
+    }
+
+    // Topics collection:
+    // Anyone (students & public) can read topics and seminar presentations.
+    // Only verified teachers can create, update, or delete topic presentation metadata.
+    match /topics/{topicId} {
+      allow read: if true;
+      allow write: if isTeacher();
+    }
+
+    // Teachers registry collection
+    match /teachers/{teacherId} {
+      allow read: if request.auth != null;
+      allow write: if isTeacher();
+    }
+  }
+}
