@@ -91,12 +91,12 @@ export const TopicDetailsPage: React.FC<TopicDetailsPageProps> = ({
 
         {/* Seminar Presentation Section */}
         <section aria-labelledby="seminar-presentation-heading" style={{ marginTop: '2.5rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
-            <h2 id="seminar-presentation-heading" style={{ fontSize: '1.4rem', color: 'var(--navy-darkest)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+            <h2 id="seminar-presentation-heading" style={{ fontSize: '1.4rem', color: '#ffffff', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
               Curriculum Seminar Presentation
             </h2>
             {topic.presentation?.description && (
-              <span style={{ fontSize: '0.85rem', color: '#64748b', fontStyle: 'italic' }}>
+              <span style={{ fontSize: '0.85rem', color: '#cbd5e1', fontStyle: 'italic', background: 'rgba(15, 23, 42, 0.6)', padding: '0.25rem 0.65rem', borderRadius: '6px' }}>
                 Note: {topic.presentation.description}
               </span>
             )}

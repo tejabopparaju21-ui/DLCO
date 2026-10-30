@@ -82,7 +82,7 @@ const AppContent: React.FC = () => {
           justifyContent: 'center',
           flexDirection: 'column',
           gap: '1rem',
-          color: '#0f2744'
+          color: '#ffffff'
         }}>
           <div style={{
             width: '40px',
