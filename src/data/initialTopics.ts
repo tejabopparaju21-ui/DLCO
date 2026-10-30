@@ -269,14 +269,174 @@ export const INITIAL_TOPICS: Topic[] = [
     number: 4,
     title: 'Primary Memory (ROM) – With Mapping',
     category: 'Primary Memory',
-    summary: 'Architecture of Read-Only Memory, programmable variants (PROM, EPROM, EEPROM, Flash), and diode/transistor ROM array address mapping.',
+    summary: 'Hardware organization, internal array logic, capacity sizing, and system address decoding for Read-Only Memory (ROM) and RAM under Computer Organization & Architecture.',
     keyConcepts: [
-      'Types of ROM: Mask ROM, PROM, EPROM, EEPROM, Flash NOR/NAND',
-      'ROM Internal Matrix Structure and Decoder Interconnection',
-      'Combinational Logic Realization using ROM Arrays',
-      'Firmware, BIOS, and Bootstrapping Architectures'
+      'Primary Memory Fundamentals (Address, Data, Control Bus Coupling)',
+      'RAM vs. ROM Comparative Characteristics (Volatile vs Non-Volatile)',
+      'Classification of ROM (Mask ROM, PROM, EPROM, EEPROM, Flash)',
+      'Internal ROM Architecture (Row Decoder k → 2^k, Crosspoint Array 2^k × w)',
+      'ROM Capacity Sizing Formulation (Capacity = 2^k × w bits)',
+      'Address Mapping & Decoding (High-Order vs Low-Order Bits, Chip Select CS)',
+      'Practical 64 KB Memory Map Design (Boot ROM, System RAM, Reserved Blocks)'
     ],
-    presentation: null
+    presentation: {
+      id: 'pres-topic-4',
+      topicId: 'topic-4',
+      fileName: 'DLCO_Topic04_ROM_Architecture_Mapping.pdf',
+      fileType: 'pdf',
+      fileSize: 855073, // ~855 KB
+      fileUrl: '/presentations/DLCO_Topic04_ROM_Architecture_Mapping.pdf',
+      uploadedAt: '2026-10-30T12:45:00.000Z',
+      uploadedBy: 'Seminar Presentation Team (John Paul, Nishant, Ganesh, Ram Charan, Seshu)',
+      description: 'Official Seminar Presentation on Primary Memory, ROM Architecture & Address Mapping (Computer Organization & Architecture Seminar).',
+      slideCount: 11,
+      slides: [
+        {
+          slideNumber: 1,
+          title: 'Primary Memory, ROM Architecture & Address Mapping',
+          bulletPoints: [
+            'Hardware Organization, Internal Array Logic, and System Address Decoding',
+            'Computer Organization & Architecture Seminar',
+            'Presented by Seminar Team:',
+            '• John Paul (Primary Memory Fundamentals & RAM vs ROM)',
+            '• Nishant (Classification of ROM)',
+            '• Ganesh (Internal ROM Architecture & Sizing)',
+            '• Ram Charan (Introduction to Memory Mapping & Concepts)',
+            '• Seshu (Practical 64 KB Memory Map & Summary)'
+          ],
+          speakerNotes: 'Welcome faculty and students to the seminar on Primary Memory, ROM Architecture, and Address Mapping.'
+        },
+        {
+          slideNumber: 2,
+          title: 'Primary Memory Fundamentals',
+          bulletPoints: [
+            'Presented by: John Paul | Immediate Working Store',
+            'Primary memory is the CPU’s immediate working store directly coupled through address, data, and control buses.',
+            'RAM prioritizes high execution speed and volatility; ROM preserves instructions without power.',
+            'Nanosecond cycle times keep memory access aligned with high-frequency processor clocks.',
+            'Bus Interconnection: CPU communicates via Address Bus, Data Bus, and Control Bus.',
+            'Volatile State: Fast working memory (RAM), lost when electrical power is disconnected.',
+            'Non-Volatile State: Persistent firmware (ROM), permanently retained without power.'
+          ],
+          speakerNotes: 'Presented by John Paul. Explaining primary memory roles and the tri-bus coupling mechanism with the CPU.'
+        },
+        {
+          slideNumber: 3,
+          title: 'RAM vs ROM Comparative Matrix',
+          bulletPoints: [
+            'Presented by: John Paul | Core Operating Differences',
+            'Volatility: RAM is Volatile | ROM is Non-Volatile (retains state without power).',
+            'Operation: RAM supports dynamic Read/Write | ROM is Read-Only during normal program execution.',
+            'System Role: RAM runs the OS and active programs | ROM houses bootstrap initialization firmware (BIOS/UEFI).',
+            'Control Signals: RAM requires Read + Write strobes | ROM requires Output Enable (OE) + Chip Select (CS).'
+          ],
+          speakerNotes: 'Presented by John Paul. Detailed comparison between volatile working RAM and non-volatile boot ROM.'
+        },
+        {
+          slideNumber: 4,
+          title: 'Classification of ROM Technologies',
+          bulletPoints: [
+            'Presented by: Nishant | Technological Variants',
+            '01 MASK ROM: Hardwired during semiconductor fabrication; non-alterable; best economics at massive manufacturing scale.',
+            '02 PROM (Programmable ROM): Shipped blank and programmed once by blowing microscopic fuse links permanently.',
+            '03 EPROM (Erasable PROM): Erased by exposing quartz window to ultraviolet (UV) light; uses floating-gate MOS cells.',
+            '04 EEPROM (Electrically Erasable PROM): In-circuit electrically erasable and byte-by-byte programmable without removing chip.'
+          ],
+          speakerNotes: 'Presented by Nishant. Tracing the evolution of ROM from hardwired Mask ROM to electrically reprogrammable EEPROM.'
+        },
+        {
+          slideNumber: 5,
+          title: 'Internal ROM Architecture',
+          bulletPoints: [
+            'Presented by: Ganesh | Internal Array Logic',
+            'Address Inputs: k address lines supplied to the decoder.',
+            'Row Decoder: k-to-2^k decoder generating 2^k distinct word lines.',
+            'Crosspoint Array: 2^k × w memory cell array of diodes or transistors storing individual bit patterns.',
+            'Sense Buffers: w data bit output lines transferring retrieved data to the system bus.',
+            'Core Operational Rule: Exactly one word line is selected by the decoder, driving w sensed output bits onto the data lines.'
+          ],
+          speakerNotes: 'Presented by Ganesh. Walkthrough of internal ROM organization from address input decoding to sense amplifiers.'
+        },
+        {
+          slideNumber: 6,
+          title: 'ROM Capacity Sizing Formulation',
+          bulletPoints: [
+            'Presented by: Ganesh | Sizing Calculations',
+            'Capacity Formula: Capacity (bits) = 2^k × w',
+            '• Where k = number of address input lines, w = word width in bits.',
+            'Step 1: Given 13 address lines (k = 13).',
+            'Step 2: Total addressable words = 2^13 = 8,192 words.',
+            'Step 3: Total bit capacity = 8,192 words × 8 bits/word = 65,536 bits.',
+            'Conclusion: 65,536 bits / (8 bits/byte × 1024 bytes/KB) = 8 KB ROM chip.'
+          ],
+          speakerNotes: 'Presented by Ganesh. Mathematical proof and capacity sizing calculation for an 8 KB ROM array.'
+        },
+        {
+          slideNumber: 7,
+          title: 'Introduction to Memory Mapping',
+          bulletPoints: [
+            'Presented by: Ram Charan | System Address Allocation',
+            'Definition: Memory mapping assigns specific contiguous address ranges to physical RAM and ROM devices.',
+            'CPU Access: Helps CPU locate and access the correct memory device deterministically without address bus conflict.',
+            'Unique Addressing: Every individual byte location in memory is assigned a unique, unambiguous system address.',
+            'Address Decoder: Decodes high-order address bits from the CPU to identify and enable the targeted memory chip.',
+            'Chip Select (CS): Active-low signal that activates only the selected memory chip while keeping all other chips in high-impedance state.',
+            'Address Mapping Example: RAM assigned 0x0000–0xBFFF (48 KB) | ROM assigned 0xC000–0xCFFF (4 KB).'
+          ],
+          speakerNotes: 'Presented by Ram Charan. Explaining system address mapping and chip-select activation.'
+        },
+        {
+          slideNumber: 8,
+          title: 'Working & Important Architectural Concepts',
+          bulletPoints: [
+            'Presented by: Ram Charan | Decoding Hardware and Signals',
+            'High-Order Address Bits: Act as chip-select control inputs to choose which specific memory chip responds to the CPU.',
+            'Low-Order Address Bits: Act as internal address offsets to pinpoint the exact storage cell or byte within the selected chip.',
+            'Address Decoder: Dedicated combinational logic hardware matching incoming address ranges to physical chip enables.',
+            'Chip Select (CS): An enable pin that activates data transfer exclusively for the targeted memory unit.',
+            'Bus Contention Prevention: Occurs when multiple devices attempt to drive data onto the system bus simultaneously. Proper address decoding and mutual exclusion prevent bus conflicts.'
+          ],
+          speakerNotes: 'Presented by Ram Charan. Explaining high-order vs low-order bit splitting and bus contention mitigation.'
+        },
+        {
+          slideNumber: 9,
+          title: 'Practical 64 KB Memory Map Design',
+          bulletPoints: [
+            'Presented by: Seshu | 16-Bit Address Space (A15–A0)',
+            'System Architecture: 16-bit address space (64 KB total), Internal chip offset: 13 lines (A12–A0 = 8 KB each).',
+            '0000H–1FFFH: BOOT ROM | High-order bits A15 A14 A13 = 000 | 8 KB Capacity.',
+            '2000H–3FFFH: SYSTEM RAM 1 | High-order bits A15 A14 A13 = 001 | 8 KB Capacity.',
+            '4000H–5FFFH: SYSTEM RAM 2 | High-order bits A15 A14 A13 = 010 | 8 KB Capacity.',
+            '6000H–FFFFH: EXPANSION / RESERVED | High-order bits = 011 to 111 | 40 KB Address Space.',
+            'Decoding Principle: 3 high-order bits select the 8 KB memory block; 13 low-order bits locate the exact byte inside it.'
+          ],
+          speakerNotes: 'Presented by Seshu. Step-by-step breakdown of a practical 64 KB memory map with boot ROM and RAM banks.'
+        },
+        {
+          slideNumber: 10,
+          title: 'Summary & Key Takeaways',
+          bulletPoints: [
+            'Presented by: Seshu | Core Engineering Principles',
+            '01 RETAIN: Non-volatile ROM safeguards boot vectors, reset vectors, and initial system firmware reliability.',
+            '02 DECODE: Efficient selection logic and block decoders minimize microprocessor pin count and hardware wiring complexity.',
+            '03 ISOLATE: Absolute address decoding prevents bus contention, floating bus lines, and destructive address aliasing.'
+          ],
+          speakerNotes: 'Presented by Seshu. The three golden rules: Retain, Decode, and Isolate.'
+        },
+        {
+          slideNumber: 11,
+          title: 'Q&A - Questions & Discussion',
+          bulletPoints: [
+            'Thank you for your attention! The floor is now open for questions and technical discussion.',
+            'Seminar Topic: Primary Memory, ROM Architecture & Address Mapping',
+            'Computer Organization & Architecture Seminar',
+            'Seminar Presentation Team:',
+            '• John Paul • Nishant • Ganesh • Ram Charan • Seshu'
+          ],
+          speakerNotes: 'Presented by Seminar Team (John Paul, Nishant, Ganesh, Ram Charan, Seshu). Final seminar conclusion and open floor Q&A.'
+        }
+      ]
+    }
   },
   {
     id: 'topic-5',

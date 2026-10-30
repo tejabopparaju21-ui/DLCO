@@ -2,7 +2,7 @@ import type { Topic, PresentationMetadata, AuthUser } from '../types';
 import { INITIAL_TOPICS } from '../data/initialTopics';
 
 const DB_NAME = 'DLCO_Portal_Database';
-const DB_VERSION = 3;
+const DB_VERSION = 4;
 const TOPICS_STORE = 'topics';
 const FILES_STORE = 'presentation_files';
 
@@ -83,14 +83,16 @@ class IndexedDbService {
         if (!topics || topics.length === 0) {
           this.initializeDefaultTopics().then(resolve).catch(reject);
         } else {
-          // If topic-1 presentation has been updated in INITIAL_TOPICS (12-slide seminar deck)
-          const topic1 = topics.find((t) => t.id === 'topic-1');
-          if (topic1 && (!topic1.presentation || topic1.presentation.fileSize !== INITIAL_TOPICS[0].presentation?.fileSize || topic1.presentation.fileName !== INITIAL_TOPICS[0].presentation?.fileName)) {
-            topic1.presentation = INITIAL_TOPICS[0].presentation;
-            topic1.summary = INITIAL_TOPICS[0].summary;
-            topic1.keyConcepts = INITIAL_TOPICS[0].keyConcepts;
-            this.updateTopic(topic1).catch(console.error);
-          }
+          // Automatically sync initial curriculum topics with newly bundled presentation assets
+          INITIAL_TOPICS.forEach((initialTopic) => {
+            const existing = topics.find((t) => t.id === initialTopic.id);
+            if (existing && initialTopic.presentation && (!existing.presentation || existing.presentation.fileName !== initialTopic.presentation.fileName || existing.presentation.fileSize !== initialTopic.presentation.fileSize)) {
+              existing.presentation = initialTopic.presentation;
+              existing.summary = initialTopic.summary;
+              existing.keyConcepts = initialTopic.keyConcepts;
+              this.updateTopic(existing).catch(console.error);
+            }
+          });
           resolve(topics.sort((a, b) => a.number - b.number));
         }
       };
