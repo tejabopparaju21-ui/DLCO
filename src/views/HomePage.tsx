@@ -12,7 +12,7 @@ export const HomePage: React.FC<HomePageProps> = ({
   onNavigateToTeacher
 }) => {
   return (
-    <main id="main-content">
+    <main id="main-content" className="home-page-wrapper">
       <HeroSection
         onExploreTopics={onNavigateToStudent}
         onOpenTeacherDashboard={onNavigateToTeacher}

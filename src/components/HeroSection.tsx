@@ -61,7 +61,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           <div>
             <div className="hero-badge">
               <Layers size={14} />
-              <span>Computer Architecture & Engineering Courseware</span>
+              <span>Vignan's Lara Institute of Technology & Science • DLCO Portal</span>
             </div>
 
             <h1 className="hero-headline" id="hero-main-heading">

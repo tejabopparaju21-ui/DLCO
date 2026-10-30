@@ -339,10 +339,19 @@ button {
 /* ==========================================================================
    Hero Section Styles
    ========================================================================== */
+/* Home Page Campus Background */
+.home-page-wrapper {
+  background: 
+    linear-gradient(180deg, rgba(8, 20, 38, 0.82) 0%, rgba(15, 39, 68, 0.86) 45%, rgba(10, 25, 47, 0.94) 100%),
+    url('/images/vignan_lara_campus.jpg') center top / cover no-repeat fixed;
+  min-height: calc(100vh - 72px);
+  position: relative;
+}
+
 .hero-section {
-  background: linear-gradient(180deg, var(--navy-dark) 0%, var(--navy-primary) 70%, #173860 100%);
+  background: transparent;
   color: var(--white);
-  padding: 4.5rem 0 5rem 0;
+  padding: 5rem 0 5.5rem 0;
   position: relative;
   overflow: hidden;
 }
@@ -539,8 +548,10 @@ button {
    Two Distinct Portal Entries (Student Area & Teacher Workspace)
    ========================================================================== */
 .portal-entries-section {
-  padding: 4rem 0 3.5rem 0;
-  background-color: var(--white);
+  padding: 4.5rem 0 4rem 0;
+  background-color: rgba(248, 250, 252, 0.94);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
   border-bottom: 1px solid var(--slate-200);
 }
 
