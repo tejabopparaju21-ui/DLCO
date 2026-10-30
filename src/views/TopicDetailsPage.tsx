@@ -91,12 +91,12 @@ export const TopicDetailsPage: React.FC<TopicDetailsPageProps> = ({
 
         {/* Seminar Presentation Section */}
         <section aria-labelledby="seminar-presentation-heading" style={{ marginTop: '2.5rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.5rem' }}>
-            <h2 id="seminar-presentation-heading" style={{ fontSize: '1.4rem', color: '#ffffff', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.75rem' }}>
+            <h2 id="seminar-presentation-heading" style={{ fontSize: '1.4rem', color: 'var(--navy-darkest)', background: 'rgba(255, 255, 255, 0.92)', padding: '0.4rem 1rem', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)', backdropFilter: 'blur(8px)' }}>
               Curriculum Seminar Presentation
             </h2>
             {topic.presentation?.description && (
-              <span style={{ fontSize: '0.85rem', color: '#cbd5e1', fontStyle: 'italic', background: 'rgba(15, 23, 42, 0.6)', padding: '0.25rem 0.65rem', borderRadius: '6px' }}>
+              <span style={{ fontSize: '0.85rem', color: 'var(--slate-700)', fontStyle: 'italic', background: 'rgba(255, 255, 255, 0.92)', padding: '0.4rem 0.85rem', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)', backdropFilter: 'blur(8px)' }}>
                 Note: {topic.presentation.description}
               </span>
             )}

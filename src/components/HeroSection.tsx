@@ -58,7 +58,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       <div className="container">
         <div className="hero-grid">
           {/* Left Column: Headlines & CTA */}
-          <div>
+          <div className="hero-text-card">
             <div className="hero-badge">
               <Layers size={14} />
               <span>Vignan's Lara Institute of Technology & Science • DLCO Portal</span>
