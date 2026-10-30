@@ -2,7 +2,7 @@ import type { Topic, PresentationMetadata, AuthUser } from '../types';
 import { INITIAL_TOPICS } from '../data/initialTopics';
 
 const DB_NAME = 'DLCO_Portal_Database';
-const DB_VERSION = 4;
+const DB_VERSION = 5;
 const TOPICS_STORE = 'topics';
 const FILES_STORE = 'presentation_files';
 

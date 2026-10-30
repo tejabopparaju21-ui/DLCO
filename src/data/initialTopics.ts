@@ -457,14 +457,208 @@ export const INITIAL_TOPICS: Topic[] = [
     number: 6,
     title: 'Cache Memory',
     category: 'Cache Architecture',
-    summary: 'Principles of ultra-high-speed buffer memory, cache line structures, tag/index/offset address fields, and write strategies.',
+    summary: 'Principles of ultra-high-speed buffer memory, cache levels (L1/L2/L3), Hit Ratio and Miss Ratio formulations, and Average Memory Access Time (AMAT) performance analysis.',
     keyConcepts: [
-      'Cache Line / Block Size and Spatial Exploitation',
-      'Cache Tag Directory and Valid/Dirty Bit Flags',
-      'Write-Through vs Write-Back Policies',
-      'Write-Allocate vs No-Write-Allocate on Cache Miss'
+      'Cache Memory Concept & Principles (Small, high-speed memory close to CPU)',
+      'Multi-Level Cache Architecture (L1 Closest/Fastest, L2 Larger, L3 Shared)',
+      'Cache Operation Flow (Cache Hit vs. Cache Miss Pathways)',
+      'Hit Ratio Formulation (Hits / Total Requests × 100)',
+      'Miss Ratio Formulation (Misses / Total Requests × 100)',
+      'Complementary Ratio Property (Hit Ratio + Miss Ratio = 100%)',
+      'Average Memory Access Time (AMAT = Hit Time + (Miss Rate × Miss Penalty))'
     ],
-    presentation: null
+    presentation: {
+      id: 'pres-topic-6',
+      topicId: 'topic-6',
+      fileName: 'DLCO_Topic06_Cache_Memory_Hit_Miss_Ratio.pdf',
+      fileType: 'pdf',
+      fileSize: 143273, // 143 KB
+      fileUrl: '/presentations/DLCO_Topic06_Cache_Memory_Hit_Miss_Ratio.pdf',
+      uploadedAt: '2026-10-30T13:00:00.000Z',
+      uploadedBy: 'Computer Organization Seminar Team (Batch 14)',
+      description: 'Official Seminar Presentation on Cache Memory: Hit Ratio, Miss Ratio, and AMAT Performance Analysis.',
+      slideCount: 11,
+      slides: [
+        {
+          slideNumber: 1,
+          title: 'Cache Memory – Hit Ratio / Miss Ratio',
+          bulletPoints: [
+            'Computer Organization Seminar | Batch 14',
+            'Understanding how a computer finds data quickly — and what happens when it does not.',
+            'Core Theme: Fast Access • Fewer Slow Memory Trips',
+            'Focus Areas:',
+            '• What is cache memory and why do processors need it?',
+            '• Multi-level cache hierarchy (L1, L2, L3)',
+            '• Hit vs. Miss pathways and operational mechanisms',
+            '• Quantitative Hit Ratio & Miss Ratio formulas with worked examples',
+            '• Average Memory Access Time (AMAT) performance modeling'
+          ],
+          speakerNotes: 'Welcome everyone. Today we present Cache Memory in Computer Organization, focusing on Hit Ratio, Miss Ratio, and how cache prevents costly memory trips.'
+        },
+        {
+          slideNumber: 2,
+          title: 'What is Cache Memory? (The Concept)',
+          bulletPoints: [
+            '02 / THE CONCEPT | Core Definition & Role',
+            'Core Principle: Cache keeps useful information close to the CPU so it can be accessed quickly.',
+            '• CACHE: Small, high-speed semiconductor memory positioned adjacent to the processor core.',
+            '• STORES: Holds recently accessed or frequently executed instructions and data.',
+            '• PURPOSE: Drastically reduces the time CPU spends waiting for data from main memory.',
+            '• Desk Analogy: Think of cache as the reference notes on your study desk — immediately reachable when needed, saving you repeated long walks to the library.'
+          ],
+          speakerNotes: 'Presented by Batch 14. Cache functions like notes kept directly on your desk, keeping vital information within immediate reach.'
+        },
+        {
+          slideNumber: 3,
+          title: 'Why Do Computers Need Cache? (Why It Matters)',
+          bulletPoints: [
+            '03 / WHY IT MATTERS | The Processor-Memory Speed Gap',
+            'The Speed Disparity: The processor and main memory do not operate at the same speed (Memory Wall).',
+            '• Processor Demand: The CPU repeatedly requests instructions and data every cycle while running programs.',
+            '• RAM Latency: RAM is larger, but access generally takes much longer (dozens of ns) than a cache hit (sub-nanosecond).',
+            '• Cache Advantage: Keeps selected high-priority data near the CPU to reduce average access time.',
+            '• Ultimate Aim: Less processor waiting, smoother program execution, and higher IPC.',
+            'Simplified Memory Hierarchy Overview:',
+            '• CPU: Processor core execution engine (Fastest)',
+            '• CACHE: Very fast / Small capacity buffer',
+            '• RAM: Large capacity / Slower access time',
+            '• SSD / STORAGE: Persistent secondary storage / High latency'
+          ],
+          speakerNotes: 'Presented by Batch 14. CPU cycle times are fractions of a nanosecond, whereas DRAM access takes 50-100 ns. Cache bridges this critical speed disparity.'
+        },
+        {
+          slideNumber: 4,
+          title: 'Cache Can Have Multiple Levels (L1, L2, L3)',
+          bulletPoints: [
+            '04 / A LITTLE MORE DETAIL | Hierarchical Cache Organization',
+            'Multi-Level Design: Modern microprocessors implement hierarchical L1, L2, and L3 caches.',
+            '• L1 Cache: Closest to the CPU core; smallest capacity (32–64 KB) and fastest access speed (typically 1–4 clock cycles).',
+            '• L2 Cache: Larger secondary level; often dedicated per core with moderate latency (8–14 clock cycles).',
+            '• L3 Cache: Shared across multiple CPU cores; largest cache capacity (megabytes) acting as the final buffer before RAM.',
+            'Architectural Note: Exact cache capacities, latencies, and core-sharing topologies vary by processor family; these represent general architectural patterns rather than fixed rules.'
+          ],
+          speakerNotes: 'Presented by Batch 14. Multi-level caching balances speed and capacity: ultra-fast private L1/L2 per core and a larger shared L3 cache.'
+        },
+        {
+          slideNumber: 5,
+          title: 'How It Works – Every Request Takes One of Two Paths',
+          bulletPoints: [
+            '05 / HOW IT WORKS | Cache Request Flow & Decision Logic',
+            'Request Initiation: Whenever the CPU requests an address, it checks the cache first.',
+            'Path 1 — CACHE HIT:',
+            '• The requested data or instruction is present in the cache line.',
+            '• Data is found and supplied to the CPU immediately without delay.',
+            'Path 2 — CACHE MISS:',
+            '• The requested data is absent from cache memory.',
+            '• Data must be fetched from a lower level in the memory hierarchy.',
+            '• If lower-level caches (L2/L3) also miss, the request is forwarded to main memory (RAM).'
+          ],
+          speakerNotes: 'Presented by Batch 14. Every memory reference branches into either a Cache Hit (data supplied immediately) or a Cache Miss (request routed to lower levels).'
+        },
+        {
+          slideNumber: 6,
+          title: 'Hit Ratio – How Often Is Data Found in Cache?',
+          bulletPoints: [
+            '06 / HIT RATIO | Measuring Cache Effectiveness',
+            'Definition: A cache hit occurs when the CPU requested data is found in cache memory.',
+            'Hit Ratio Mathematical Formula:',
+            '• Hit Ratio (%) = (Hits ÷ Total Requests) × 100',
+            '• Hit Rate (Decimal) = Hits ÷ Total Requests',
+            'Significance: A high hit ratio indicates that the vast majority of memory references are served directly from fast cache.',
+            'Benchmark Metric: Hit ratio is the primary indicator of cache efficiency and program locality.',
+            'Worked Example Calculation:',
+            '• 80 hits out of 100 total requests:',
+            '• Hit Ratio = (80 ÷ 100) × 100 = 80%'
+          ],
+          speakerNotes: 'Presented by Batch 14. Hit ratio represents the percentage of requests satisfied by the cache. In this example, 80 hits out of 100 requests gives an 80% hit ratio.'
+        },
+        {
+          slideNumber: 7,
+          title: 'Miss Ratio – How Often Is Data Absent from Cache?',
+          bulletPoints: [
+            '07 / MISS RATIO | Measuring Cache Misses',
+            'Definition: A cache miss occurs when the CPU requested data is not found in cache memory.',
+            'Miss Ratio Mathematical Formula:',
+            '• Miss Ratio (%) = (Misses ÷ Total Requests) × 100',
+            '• Miss Rate (Decimal) = Misses ÷ Total Requests',
+            'Consequence: A miss forces the memory controller to query lower memory levels (L2, L3, or DRAM).',
+            'Performance Penalty: Misses introduce substantial wait cycles and inflate average access time.',
+            'Worked Example Calculation:',
+            '• 20 misses out of 100 total requests:',
+            '• Miss Ratio = (20 ÷ 100) × 100 = 20%'
+          ],
+          speakerNotes: 'Presented by Batch 14. Miss ratio measures the proportion of requests that miss. For 20 misses out of 100 requests, the miss ratio is 20%.'
+        },
+        {
+          slideNumber: 8,
+          title: 'Worked Example – Calculating Both Ratios',
+          bulletPoints: [
+            '08 / WORKED EXAMPLE | Step-by-Step Numerical Walkthrough',
+            'Problem Scenario: Suppose an executing program performs 100 memory requests.',
+            'Given Parameters:',
+            '• Total Memory Requests = 100',
+            '• Cache Hits = 80',
+            '• Cache Misses = 20',
+            'Calculations:',
+            '• Hit Ratio = (80 ÷ 100) × 100 = 80%',
+            '• Miss Ratio = (20 ÷ 100) × 100 = 20%',
+            'Sum & Balance Check:',
+            '• 80% + 20% = 100%',
+            'Verification Principle: Total Hits + Total Misses must always equal Total Requests.'
+          ],
+          speakerNotes: 'Presented by Batch 14. Demonstrating the complete calculation: 80 hits give 80%, 20 misses give 20%, summing cleanly to 100% of all requests.'
+        },
+        {
+          slideNumber: 9,
+          title: 'Relationship – The Two Ratios Are Complementary',
+          bulletPoints: [
+            '09 / RELATIONSHIP | Complementary Nature of Hit and Miss Ratios',
+            'Fundamental Axiom: For any single set of requests, every request is counted as either a hit or a miss.',
+            'Mathematical Relationship:',
+            '• Hit Ratio + Miss Ratio = 100%',
+            '• Or in decimal rate form: Hit Rate + Miss Rate = 1.0',
+            '• Derived Formulas: Miss Ratio = 100% - Hit Ratio | Hit Ratio = 100% - Miss Ratio',
+            'Architectural Implications:',
+            '• Higher Hit Ratio: Directly translates to fewer slow-memory accesses.',
+            '• Lower Miss Ratio: Crucial to minimizing Average Memory Access Time (AMAT).',
+            '• Design Goal: Maximize hit ratio within chip area and power constraints.'
+          ],
+          speakerNotes: 'Presented by Batch 14. Hit Ratio and Miss Ratio are mathematically complementary: Hit Ratio + Miss Ratio = 100%. Improving one directly reduces the other.'
+        },
+        {
+          slideNumber: 10,
+          title: 'Performance – Why Do These Ratios Matter? (AMAT)',
+          bulletPoints: [
+            '10 / PERFORMANCE | Average Memory Access Time (AMAT) Modeling',
+            'Why Ratios Matter: Misses incur severe latency stalls, meaning hit rate alone does not reveal the full performance picture.',
+            '• Higher Hit Ratio: Generally leads to fewer expensive misses and smoother execution.',
+            '• Higher Miss Ratio: Causes severe processor idling while awaiting RAM responses.',
+            'Average Memory Access Time (AMAT) Formula:',
+            '• AMAT = Hit Time + (Miss Rate × Miss Penalty)',
+            'Parameter Breakdown:',
+            '• Hit Time: Time required to access cache (e.g., 1 ns / 1 clock cycle).',
+            '• Miss Rate: The miss ratio expressed as a decimal (e.g., 20% = 0.20).',
+            '• Miss Penalty: The additional latency needed to fetch data from main memory into cache (e.g., 50–100 ns).'
+          ],
+          speakerNotes: 'Presented by Batch 14. AMAT formula models real-world memory latency. Because Miss Penalty is so high, reducing the Miss Rate has an outsized impact on system throughput.'
+        },
+        {
+          slideNumber: 11,
+          title: 'Recap & Conclusion – Three Things to Remember',
+          bulletPoints: [
+            '11 / RECAP | Key Takeaways & Summary',
+            'Three Core Principles to Remember:',
+            '1. CACHE: Small, high-speed memory placed close to the CPU to buffer frequent data.',
+            '2. HIT RATIO: Measures how often requested data is successfully found in cache.',
+            '3. MISS RATIO: Measures how often requested data is absent and requires a trip to slower memory.',
+            'Performance Rule: More hits + fewer misses = generally superior computer performance.',
+            'THANK YOU! • QUESTIONS & DISCUSSION',
+            'Computer Organization Seminar Presentation | Batch 14'
+          ],
+          speakerNotes: 'Presented by Batch 14. To wrap up: Cache minimizes CPU idle time; Hit Ratio measures success; Miss Ratio measures penalties. Together they determine AMAT. Thank you!'
+        }
+      ]
+    }
   },
   {
     id: 'topic-7',
