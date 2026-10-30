@@ -2,7 +2,7 @@ import type { Topic, PresentationMetadata, AuthUser } from '../types';
 import { INITIAL_TOPICS } from '../data/initialTopics';
 
 const DB_NAME = 'DLCO_Portal_Database';
-const DB_VERSION = 2;
+const DB_VERSION = 3;
 const TOPICS_STORE = 'topics';
 const FILES_STORE = 'presentation_files';
 
@@ -85,7 +85,7 @@ class IndexedDbService {
         } else {
           // If topic-1 presentation has been updated in INITIAL_TOPICS (12-slide seminar deck)
           const topic1 = topics.find((t) => t.id === 'topic-1');
-          if (topic1 && (!topic1.presentation || topic1.presentation.slideCount !== 12 || topic1.presentation.fileName.endsWith('.pdf'))) {
+          if (topic1 && (!topic1.presentation || topic1.presentation.fileSize !== INITIAL_TOPICS[0].presentation?.fileSize || topic1.presentation.fileName !== INITIAL_TOPICS[0].presentation?.fileName)) {
             topic1.presentation = INITIAL_TOPICS[0].presentation;
             topic1.summary = INITIAL_TOPICS[0].summary;
             topic1.keyConcepts = INITIAL_TOPICS[0].keyConcepts;

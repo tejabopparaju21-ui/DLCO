@@ -197,6 +197,20 @@ export const PresentationViewer: React.FC<PresentationViewerProps> = ({
             </a>
           )}
 
+          {isPdf && topic.number === 1 && (
+            <a
+              href="/presentations/DLCO_Topic01_Memory_Hierarchy_Seminar.pptx"
+              download="DLCO_Topic01_Memory_Hierarchy_Seminar.pptx"
+              className="btn-secondary"
+              style={{ fontSize: '0.85rem', padding: '0.45rem 0.8rem', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}
+              id="download-pptx-companion-btn"
+              title="Download PowerPoint PPTX version"
+            >
+              <Download size={14} />
+              <span>Download PPTX</span>
+            </a>
+          )}
+
           {!isPdf && hasCompanionPdf && (
             <a
               href="/presentations/DLCO_Topic01_Memory_Hierarchy_Seminar.pdf"
